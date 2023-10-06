@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/blang/semver"
-	"github.com/google/go-github/v30/github"
+	"github.com/google/go-github/v55/github"
 )
 
 // Release represents a release asset for current OS and arch.
@@ -40,7 +40,7 @@ func newRelease(repo *repoInfo, release *github.RepositoryRelease,
 
 	return &Release{
 		Version:           *version,
-		AssetURL:          asset.GetBrowserDownloadURL(),
+		AssetURL:          asset.GetURL(),
 		AssetByteSize:     asset.GetSize(),
 		AssetID:           asset.GetID(),
 		ValidationAssetID: -1,

@@ -3,13 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/rhysd/go-github-selfupdate/selfupdate"
 	"go/build"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/rhysd/go-github-selfupdate/selfupdate"
 )
 
 var version = "1.0.0"
@@ -54,7 +55,12 @@ func parseSlug(pkg string) (string, bool) {
 }
 
 func installFrom(url, cmd, path string) error {
-	res, err := http.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return fmt.Errorf("Failed to create request")
+	}
+	req.Header.Set("Accept", "application/octet-stream")
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("Failed to download release binary from %s: %s", url, err)
 	}

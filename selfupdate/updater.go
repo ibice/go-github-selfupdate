@@ -7,7 +7,7 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/google/go-github/v30/github"
+	"github.com/google/go-github/v55/github"
 	gitconfig "github.com/tcnksm/go-gitconfig"
 	"golang.org/x/oauth2"
 )
@@ -15,10 +15,11 @@ import (
 // Updater is responsible for managing the context of self-update.
 // It contains GitHub client and its context.
 type Updater struct {
-	api       *github.Client
-	apiCtx    context.Context
-	validator Validator
-	filters   []*regexp.Regexp
+	api        *github.Client
+	apiCtx     context.Context
+	validator  Validator
+	filters    []*regexp.Regexp
+	httpClient *http.Client
 }
 
 // Config represents the configuration of self-update.
@@ -82,7 +83,7 @@ func NewUpdater(config Config) (*Updater, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Updater{api: client, apiCtx: ctx, validator: config.Validator, filters: filtersRe}, nil
+	return &Updater{api: client, apiCtx: ctx, validator: config.Validator, filters: filtersRe, httpClient: hc}, nil
 }
 
 // DefaultUpdater creates a new updater instance with default configuration.

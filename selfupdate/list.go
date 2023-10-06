@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"runtime"
 
-	"github.com/google/go-github/v30/github"
+	"github.com/google/go-github/v55/github"
 )
 
 func findReleases(repo *repoInfo, rels []*github.RepositoryRelease, filters []*regexp.Regexp) ([]*Release, error) {
